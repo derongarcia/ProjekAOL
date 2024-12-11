@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #define Max_Items 50
 
