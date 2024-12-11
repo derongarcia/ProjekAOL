@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 #define Max_Items 50
@@ -38,7 +39,7 @@ if(ItemCount == 0){
     printf("Inventory Kosong!\n");return;
 }
 printf("ID\tNama\t\tKuantitas\tHarga\n");
-printf("=========================================\n");
+printf("========================================================================\n");
 for(int i = 0; i < ItemCount; i++){
     printf("%d\t%s\t\t%d\t\t%.2f\n", inventory[i].ID, inventory[i].Barang, inventory[i].JumlahBarang, inventory[i].harga);
     }
@@ -89,7 +90,7 @@ int main() {
                 SearchItem();
                 break;
             case 4:
-                printf("Keluar dari program.\n");
+                printf("Terima Kasih Telah Menggunakan Inventory.\n");
                 return 0;
             default:
                 printf("Pilihan tidak valid!\n");
@@ -97,7 +98,3 @@ int main() {
     }
     return 0;
 }
-
-
-
-
