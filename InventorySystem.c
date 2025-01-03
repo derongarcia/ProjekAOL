@@ -15,7 +15,7 @@ int ItemCount = 0;
 
 
 void addItem(){
-if(ItemCount > Max_Items){
+if(ItemCount >= Max_Items){
     printf("Inventory sudah penuh\n"); return;
 
 }
@@ -66,11 +66,52 @@ printf("Masukkan ID yang ingin dicari: ");
     printf("Item dengan ID %d tidak ditemukan.\n", SearchItemID);
 }
 
+void writeToFile(){
+FILE *file = fopen("History.txt", "w");
+if(file == NULL){
+    printf("File gagal untuk dibuka.\n"); return;
+}
+for(int i = 0; i < ItemCount; i++){
+    fprintf(file, "ID barang: %d\nNama barang: %s\nJumlah barang: %d\n Harga barang: %.2f\n", inventory[i].ID, inventory[i].Barang, inventory[i].JumlahBarang, inventory[i].harga);
+}
+fclose(file);
+}
+
+void readFromFile(){
+FILE *file = fopen("History.txt", "r");
+if(file == NULL){
+    printf("File tidak dapat ditemukan.\n");return;
+}
+ItemCount = 0;
+while(fscanf(file, "ID barang: %d\nNama barang: %[^\n]\nJumlah barang: %d\n Harga barang: %f\n", &inventory[ItemCount].ID, inventory[ItemCount].Barang, &inventory[ItemCount].JumlahBarang, &inventory[ItemCount].harga)!= EOF){
+    ItemCount++;
+}
+fclose(file);
+}
+
+
+
+void sortByName(Item items[], int count) {
+    Item temp;
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (strcmp(items[j].Barang, items[j + 1].Barang) > 0) {
+                temp = items[j];
+                items[j] = items[j + 1];
+                items[j + 1] = temp;
+            }
+        }
+    }
+
+}
+
+
 
 int main() {
     int choice;
 
     while (1) {
+    	readFromFile();
         printf("\n=== Sistem Inventori ===\n");
         printf("1. Tambah Item\n");
         printf("2. Lihat Semua Item\n");
@@ -82,8 +123,10 @@ int main() {
         switch (choice) {
             case 1:
                 addItem();
+                writeToFile();
                 break;
             case 2:
+              sortByName(inventory, ItemCount);
                 ViewItem();
                 break;
             case 3:
